@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initLazyLoading();
   initCounterAnimations();
   initSmoothScroll();
+  initStickyBottomCta();
+  initTouchEnhancements();
 });
 
 // ----------------------------------------
@@ -37,28 +39,31 @@ function initNavbar() {
   handleScroll();
 
   // Hamburger toggle
+  function toggleMenu(open) {
+    hamburger.classList.toggle("open", open);
+    navMenu.classList.toggle("open", open);
+    hamburger.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
   hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("open");
-    navMenu.classList.toggle("open");
-    document.body.style.overflow = navMenu.classList.contains("open") ? "hidden" : "";
+    const isOpen = navMenu.classList.contains("open");
+    toggleMenu(!isOpen);
   });
 
   // Close menu on link click
   navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-      hamburger.classList.remove("open");
-      navMenu.classList.remove("open");
-      document.body.style.overflow = "";
-    });
+    link.addEventListener("click", () => toggleMenu(false));
   });
 
   // Close on outside click
   document.addEventListener("click", e => {
-    if (!navbar.contains(e.target)) {
-      hamburger.classList.remove("open");
-      navMenu.classList.remove("open");
-      document.body.style.overflow = "";
-    }
+    if (!navbar.contains(e.target)) toggleMenu(false);
+  });
+
+  // Close on Escape key
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && navMenu.classList.contains("open")) toggleMenu(false);
   });
 }
 
@@ -328,5 +333,80 @@ function initSmoothScroll() {
         window.scrollTo({ top, behavior: "smooth" });
       }
     });
+  });
+}
+
+// ----------------------------------------
+// STICKY BOTTOM CTA
+// ----------------------------------------
+function initStickyBottomCta() {
+  const cta = document.getElementById("stickyBottomCta");
+  if (!cta) return;
+
+  // Hide sticky CTA when footer is visible to avoid overlap
+  const footer = document.getElementById("footer");
+  if (!footer) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        // When footer is visible, hide the sticky CTA by lowering z-index
+        cta.style.transform = entry.isIntersecting ? "translateY(100%)" : "translateY(0)";
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  observer.observe(footer);
+  cta.style.transition = "transform 0.3s ease";
+}
+
+// ----------------------------------------
+// TOUCH ENHANCEMENTS
+// ----------------------------------------
+function initTouchEnhancements() {
+  // Swipe support for gallery lightbox
+  const lightbox = document.getElementById("lightbox");
+  if (!lightbox) return;
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  lightbox.addEventListener("touchstart", e => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  lightbox.addEventListener("touchend", e => {
+    if (!lightbox.classList.contains("active")) return;
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    const dy = e.changedTouches[0].screenY - touchStartY;
+
+    // Only horizontal swipes
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      const prevBtn = document.getElementById("lightboxPrev");
+      const nextBtn = document.getElementById("lightboxNext");
+      if (dx > 0) prevBtn && prevBtn.click();
+      else nextBtn && nextBtn.click();
+    }
+  }, { passive: true });
+
+  // Swipe support for awards slider
+  const awardsSlider = document.getElementById("awardsSlider");
+  if (awardsSlider) {
+    let sliderStartX = 0;
+    awardsSlider.addEventListener("touchstart", e => {
+      sliderStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    // Native scroll handles the rest; no extra JS needed for snap scrolling
+  }
+
+  // Prevent body scroll when modals/menus are open
+  // (already handled in initNavbar — this is just a guard)
+  document.querySelectorAll(".gallery-item").forEach(item => {
+    item.addEventListener("touchend", () => {
+      // Trigger the click so lightbox works on touch
+      item.click();
+    }, { passive: true });
   });
 }
