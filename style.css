@@ -9,12 +9,9 @@
   --primary: #1a3c6e;
   --primary-light: #2456a4;
   --primary-dark: #0f2447;
-  --accent: #c11d1ec2;
-    --accent-light: #e633348a;
-    --accent-dark: #c11d1e;
-  /* --accent: #c11d1e;
-  --accent-light: #e63334;
-  --accent-dark: #8f1516; */
+  --accent: #f47c20;
+  --accent-light: #ff9a45;
+  --accent-dark: #d4620e;
   --white: #ffffff;
   --off-white: #f8f9fc;
   --light-gray: #eef1f7;
@@ -214,8 +211,8 @@ ul { list-style: none; }
   align-items: center;
   gap: 10px;
   font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--accent-dark);
+  font-weight: 800;
+  color: #c21e1c;
   letter-spacing: -0.02em;
 }
 
