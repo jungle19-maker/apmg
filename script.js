@@ -410,3 +410,4 @@ function initTouchEnhancements() {
     }, { passive: true });
   });
 }
+
