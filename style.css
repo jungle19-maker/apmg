@@ -345,6 +345,7 @@ ul {
   display: flex;
   align-items: center;
   overflow: hidden;
+  padding-top: 160px; /* Offset the flex center strictly below the fixed navbar */
 }
 
 .hero-bg {
@@ -1643,7 +1644,7 @@ ul {
   .hero-content {
     margin-left: 0;
     max-width: 100%;
-    padding: 110px 20px 180px;
+    padding: 0 20px;
     text-align: center;
   }
 
@@ -1999,7 +2000,7 @@ ul {
 
   /* --- Hero --- */
   .hero-content {
-    padding: 100px 16px 200px;
+    padding: 0 16px;
   }
 
   .hero-title {
@@ -2165,7 +2166,7 @@ ul {
   }
 
   .hero-content {
-    padding: 90px 12px 200px;
+    padding: 0 12px;
   }
 
   .sticky-bottom-cta .sticky-cta-projects {
@@ -2268,9 +2269,9 @@ ul {
 }
 
 .top-strip-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 24px;
+  max-width: none;
+  margin: 0;
+  padding: 0 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
