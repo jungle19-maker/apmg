@@ -401,13 +401,5 @@ function initTouchEnhancements() {
     // Native scroll handles the rest; no extra JS needed for snap scrolling
   }
 
-  // Prevent body scroll when modals/menus are open
-  // (already handled in initNavbar — this is just a guard)
-  document.querySelectorAll(".gallery-item").forEach(item => {
-    item.addEventListener("touchend", () => {
-      // Trigger the click so lightbox works on touch
-      item.click();
-    }, { passive: true });
-  });
 }
 
