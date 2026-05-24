@@ -1,5 +1,5 @@
 // ========================================
-// APMG REALTY - MAIN JAVASCRIPT
+// APMG Reality - MAIN JAVASCRIPT
 // ========================================
 
 document.addEventListener("DOMContentLoaded", () => {
